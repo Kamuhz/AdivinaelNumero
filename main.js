@@ -1,5 +1,6 @@
 const numeroAleatorio = Math.floor(Math.random() * 25) + 1;
-const intentos = [];
+const intentosMaximos = 5;
+let intentos = 0;
 const jugador = { nombre: prompt('Ingresa tu nombre:') };
 
 function adivinaElNumero() {
@@ -11,20 +12,25 @@ function adivinaElNumero() {
         return;
 }
 
-    intentos.push({ numero, intento: intentos.length + 1 });
+    intentos++;
 
     if (numero === numeroAleatorio) {
-    console.log(`¡Felicidades ${jugador.nombre}! Adivinaste el número ${numeroAleatorio} en ${intentos.length} intentos.`);
-    alert(`¡Felicidades ${jugador.nombre}! Adivinaste el número en ${intentos.length} intentos.`);
-} else {
-    let mensajeFallo = '¡Fallaste! Sigue intentando.';
+        console.log(`¡Felicidades ${jugador.nombre}! Adivinaste el número ${numeroAleatorio} en ${intentos} intentos.`);
+        alert(`¡Felicidades ${jugador.nombre}! Adivinaste el número en ${intentos} intentos.`);
+    } else {
+    if (intentos === intentosMaximos) {
+        console.log(`Lo siento ${jugador.nombre}, has superado el límite de intentos. El número era ${numeroAleatorio}.`);
+        alert(`Lo siento ${jugador.nombre}, has superado el límite de intentos. El número era ${numeroAleatorio}.`);
+    } else {
+        let mensajeFallo = '¡Fallaste! Sigue intentando.';
         if (numero < numeroAleatorio) {
-            mensajeFallo += ' El número es mayor.';
-    }   else {
-            mensajeFallo += ' El número es menor.';
+        mensajeFallo += ' El número es mayor.';
+    } else {
+        mensajeFallo += ' El número es menor.';
     }
-    alert(mensajeFallo); // Mensaje de fallo con informacion adicional
-    adivinaElNumero(); // Pedimos un nuevo intento al jugador
+      alert(mensajeFallo); // Mensaje de fallo con información adicional
+      adivinaElNumero(); // Pedimos un nuevo intento al jugador
+    }
 }
 }
 
