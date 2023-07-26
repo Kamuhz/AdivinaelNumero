@@ -1,12 +1,12 @@
-const numeroAleatorio = Math.floor(Math.random() * 20) + 1;
+const numeroAleatorio = Math.floor(Math.random() * 25) + 1;
 const intentos = [];
 const jugador = { nombre: prompt('Ingresa tu nombre:') };
 
 function adivinaElNumero() {
-    const numero = parseInt(prompt('Ingresa un número entre 1 y 20:'));
+    const numero = parseInt(prompt('Ingresa un número entre 1 y 25:'));
 
-    if (isNaN(numero) || numero < 1 || numero > 20) {
-        console.log('Por favor, ingresa un número válido entre 1 y 20.');
+    if (isNaN(numero) || numero < 1 || numero > 25) {
+        console.log('Por favor, ingresa un número válido entre 1 y 25.');
         adivinaElNumero(); // Pedimos un nuevo intento al jugador
         return;
 }
