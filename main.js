@@ -55,6 +55,8 @@ adivinaForm.addEventListener('submit', function (event) {
             text: `Adivinaste el número ${numeroAleatorio} en ${intentos} intentos.\n¡Tus mejores puntuaciones están disponibles en la sección "Mis Mejores Puntuaciones"!`,
         }).then(() => {
             confettiInstance.clear();
+            intentos = 0;
+            numeroAleatorio = Math.floor(Math.random() * 25) + 1;
             mostrarMejoresPuntuaciones();
         });
     } else {
