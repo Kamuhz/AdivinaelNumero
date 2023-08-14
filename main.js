@@ -85,6 +85,11 @@ adivinaForm.addEventListener('submit', function (event) {
                 title: 'Intento fallido',
                 text: mensajeFallo,
             });
+            if (intentos < intentosMaximos) {
+                const intentosRestantes = intentosMaximos - intentos;
+                const cuadroIntentos = document.getElementById('cantidad-intentos');
+                cuadroIntentos.textContent = intentosRestantes;
+            }
         }
     }
 });

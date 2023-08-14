@@ -87,3 +87,26 @@ button {
 .swal2-confirm {
     background-color: #e74c3c !important;
 }
+
+.cuadro-intentos {
+    display: inline-block;
+    vertical-align: middle;
+    background-color: green;
+    padding: 10px;
+    margin-right: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contenedor-botones {
+    display: flex;
+    align-items: center;
+}
+
+#instrucciones {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
