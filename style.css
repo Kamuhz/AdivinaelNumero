@@ -1,0 +1,89 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #222;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin: 1rem 0;
+}
+
+form {
+    margin: 2rem auto;
+    max-width: 400px;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+label, input, button {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+input[type="number"], input[type="text"] {
+    width: 95%;
+    padding: 0.5rem;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+}
+
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+#mejores-puntuaciones {
+    margin-top: 2rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+#puntuaciones-lista {
+    list-style: none;
+    padding: 0;
+}
+
+#puntuaciones-lista li {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.swal2-title {
+    font-size: 1.5rem;
+}
+
+.swal2-content {
+    font-size: 1.2rem;
+}
+
+.swal2-confirm {
+    background-color: #e74c3c !important;
+}
