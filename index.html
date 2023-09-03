@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
+    <script src="main.js"></script>
 </head>
 <body>
     <h1>Adivina el número</h1>
@@ -18,7 +19,7 @@
         <input type="number" id="numero" min="1" max="25" required>
         <br>
         <div class="contenedor-botones">
-            <button type="submit">Adivinar</button>
+            <button type="button" id="adivinar-button">Adivinar</button>
             <div id="intentos-restantes" class="cuadro-intentos">
                 Intentos restantes: <span id="cantidad-intentos">5</span>
             </div>
@@ -27,7 +28,7 @@
             <h2>Instrucciones:</h2>
             <p>Adivina un número entre 1 y 25 en la menor cantidad de intentos posibles.</p>
             <p>Ingresa tu nombre y el número que creas que es correcto, luego presiona "Adivinar".</p>
-            <p>Tienes un límite de 5 intentos para adivinar el número correcto.</p>
+            <p>Tienes un límite de 5 intentos para adivinar el número.</p>
             <p>¡Buena suerte!</p>
         </div>
         <div id="mejores-puntuaciones">
@@ -36,7 +37,5 @@
         </div>
     </form>
     <canvas id="confetti-canvas"></canvas>
-    <script src="main.js"></script>
-    <script src="confetti.min.js"></script>
 </body>
 </html>
