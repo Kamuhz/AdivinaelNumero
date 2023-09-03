@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
             Swal.fire({
                 icon: 'warning',
                 title: 'Límite de intentos alcanzado',
-                text: `Lo siento ${nombre}, has superado el límite de intentos. El número era ${numeroAleatorio}.`,
+                text: `Lo siento ${nombre}, has superado el límite de intentos.`,
                 showCancelButton: true,
                 confirmButtonText: 'Responder pregunta para una oportunidad extra',
                 cancelButtonText: 'Salir',
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     Swal.fire({
                         icon: 'warning',
                         title: 'Límite de intentos alcanzado',
-                        text: `Lo siento ${nombre}, has superado el límite de intentos. El número era ${numeroAleatorio}.`,
+                        text: `Lo siento ${nombre}, has superado el límite de intentos.`,
                         showCancelButton: true,
                         confirmButtonText: 'Responder pregunta para una oportunidad extra',
                         cancelButtonText: 'Salir',
