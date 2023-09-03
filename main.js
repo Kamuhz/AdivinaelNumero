@@ -181,18 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    function mostrarRespuestaCorrecta(respuestaCorrecta) {
-        console.log('Mostrando respuesta correcta:', respuestaCorrecta);
-        Swal.fire({
-            icon: 'info',
-            title: 'Respuesta correcta',
-            text: `La respuesta correcta era "${respuestaCorrecta}".`
-        }).then(() => {
-            console.log('Llamando a preguntarOtraPreguntaOEmpezarNuevoJuego');
-            preguntarOtraPreguntaOEmpezarNuevoJuego();
-        });
-    }
-
     function preguntarOtraPreguntaOEmpezarNuevoJuego() {
         Swal.fire({
             icon: 'question',
