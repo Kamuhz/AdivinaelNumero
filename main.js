@@ -1,8 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
     let numeroAleatorio = Math.floor(Math.random() * 25) + 1;
     const intentosMaximos = 5;
-    let intentos = 0;
+    let intentos = intentosMaximos; // Comenzamos con 5 intentos
+    let intentosExtra = 0; // Inicialmente no se tienen intentos extra
+    let intentosTotales = 0; // Para llevar un registro de intentos totales
     let confettiInstance = null;
+
+    // Función para actualizar el número de intentos en el cuadro HTML
+    function actualizarIntentos() {
+        const cuadroIntentos = document.getElementById('cantidad-intentos');
+        cuadroIntentos.textContent = intentos + intentosExtra;
+    }
+
+    // Llama a esta función al inicio para mostrar los 5 intentos iniciales
+    actualizarIntentos();
 
     function mostrarMejoresPuntuaciones() {
         const puntuacionesLista = document.getElementById('puntuaciones-lista');
@@ -17,20 +28,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        mostrarMejoresPuntuaciones();
-    });
+    mostrarMejoresPuntuaciones();
+
     const adivinarButton = document.getElementById('adivinar-button');
     adivinarButton.addEventListener('click', function () {
         const nombre = document.getElementById('nombre').value;
 
-        if (intentos === intentosMaximos) {
+        if (intentos + intentosExtra === 0) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Límite de intentos alcanzado',
                 text: `Lo siento ${nombre}, has superado el límite de intentos.`,
                 showCancelButton: true,
-                confirmButtonText: 'Responder pregunta para una oportunidad extra',
+                confirmButtonText: 'Responder pregunta del trivia para un intento extra',
                 cancelButtonText: 'Salir',
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -51,13 +61,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            intentos++;
+            if (intentos > 0) {
+                intentos--;
+            } else if (intentosExtra > 0) {
+                intentosExtra--;
+            }
+
+            intentosTotales++; // Incrementar el contador de intentos totales
 
             if (numero === numeroAleatorio) {
                 confettiInstance = new ConfettiGenerator({ target: 'confetti-canvas' });
                 confettiInstance.render();
 
-                const puntaje = { nombre, intentos };
+                const intentosTotalesJuegoActual = intentosMaximos - intentos + intentosExtra;
+                const puntaje = { nombre, intentos: intentosTotalesJuegoActual };
                 let mejoresPuntuaciones = JSON.parse(localStorage.getItem('mejoresPuntuaciones')) || [];
                 mejoresPuntuaciones.push(puntaje);
                 mejoresPuntuaciones.sort((a, b) => a.intentos - b.intentos);
@@ -66,43 +83,36 @@ document.addEventListener('DOMContentLoaded', function () {
                 Swal.fire({
                     icon: 'success',
                     title: `¡Felicidades ${nombre}!`,
-                    text: `Adivinaste el número ${numeroAleatorio} en ${intentos} intentos.\n¡Tus mejores puntuaciones están disponibles en la sección "Mis Mejores Puntuaciones"!`,
-                }).then(() => {
-                    confettiInstance.clear();
-                    intentos = 0;
-                    numeroAleatorio = Math.floor(Math.random() * 25) + 1;
-                    mostrarMejoresPuntuaciones();
+                    text: `Adivinaste el número ${numeroAleatorio} en ${intentosTotalesJuegoActual} intentos.\n¡Tus mejores puntuaciones están disponibles en la sección "Mis Mejores Puntuaciones"!`,
+                    showCancelButton: true,
+                    confirmButtonText: 'Jugar de nuevo',
+                    cancelButtonText: 'Salir',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Reiniciar el juego
+                        intentos = intentosMaximos;
+                        intentosExtra = 0;
+                        intentosTotales = 0; // Reiniciar el contador de intentos totales
+                        numeroAleatorio = Math.floor(Math.random() * 25) + 1;
+                        mostrarMejoresPuntuaciones();
+                        actualizarIntentos(); // Actualizar el número de intentos en el cuadro HTML
+                        confettiInstance.clear();
+                    } else {
+                        // Salir del juego (opcional)
+                        window.close();
+                    }
                 });
             } else {
-                if (intentos === intentosMaximos) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Límite de intentos alcanzado',
-                        text: `Lo siento ${nombre}, has superado el límite de intentos.`,
-                        showCancelButton: true,
-                        confirmButtonText: 'Responder pregunta para una oportunidad extra',
-                        cancelButtonText: 'Salir',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            mostrarPreguntaTriviaParaIntentoExtra();
-                        } else {
-                            window.close();
-                        }
-                    });
-                } else {
-                    let mensajeFallo = '¡Fallaste! Sigue intentando.';
-                    mensajeFallo += numero < numeroAleatorio ? ' El número es mayor.' : ' El número es menor.';
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Intento fallido',
-                        text: mensajeFallo,
-                    });
-                    if (intentos < intentosMaximos) {
-                        const intentosRestantes = intentosMaximos - intentos;
-                        const cuadroIntentos = document.getElementById('cantidad-intentos');
-                        cuadroIntentos.textContent = intentosRestantes;
-                    }
-                }
+                let mensajeFallo = '¡Fallaste! Sigue intentando.';
+                mensajeFallo += numero < numeroAleatorio ? ' El número es mayor.' : ' El número es menor.';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Intento fallido',
+                    text: mensajeFallo,
+                });
+
+                // Actualizar el número de intentos en el cuadro HTML
+                actualizarIntentos();
             }
         }
     });
@@ -156,23 +166,22 @@ document.addEventListener('DOMContentLoaded', function () {
                         const respuestaCorrecta = decodeHTMLEntities(pregunta.correct_answer);
 
                         if (respuestaElegida === respuestaCorrecta) {
-                            intentos = 0;
                             Swal.fire({
                                 icon: 'success',
                                 title: '¡Respuesta correcta!',
-                                text: 'Has ganado una oportunidad extra para adivinar el número.'
+                                text: 'Has ganado un intento extra.',
                             });
+                            intentosExtra++;
+                            actualizarIntentos(); // Actualizar el número de intentos en el cuadro HTML
                         } else {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Respuesta incorrecta',
-                                text: `La respuesta correcta era "${respuestaCorrecta}".`
+                                text: `La respuesta correcta era "${respuestaCorrecta}".`,
                             }).then(() => {
-                                preguntarOtraPreguntaOEmpezarNuevoJuego();
+                                mostrarPreguntaTriviaParaIntentoExtra();
                             });
                         }
-                    } else {
-                        preguntarOtraPreguntaOEmpezarNuevoJuego();
                     }
                 });
             })
@@ -180,26 +189,5 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error al obtener la pregunta de trivia:', error);
             });
     }
-
-    function preguntarOtraPreguntaOEmpezarNuevoJuego() {
-        Swal.fire({
-            icon: 'question',
-            title: '¿Qué quieres hacer?',
-            showCancelButton: true,
-            confirmButtonText: 'Contestar otra pregunta',
-            cancelButtonText: 'Empezar nuevo juego',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                mostrarPreguntaTriviaParaIntentoExtra(); // Mostrar otra pregunta
-            } else {
-                // Empezar un nuevo juego
-                intentos = 0;
-                numeroAleatorio = Math.floor(Math.random() * 25) + 1;
-                mostrarMejoresPuntuaciones();
-            }
-        });
-    }
-
-    // Generar un número aleatorio al cargar la página
-    numeroAleatorio = Math.floor(Math.random() * 25) + 1;
 });
+
